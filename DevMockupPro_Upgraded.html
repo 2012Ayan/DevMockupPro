@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevMockup Pro — Beautiful code &amp; text mockups in seconds</title>
+<meta name="description" content="Paste code or text and instantly wrap it in a MacBook, iPhone, browser or terminal mockup with gradients, shadows and padding. Export crisp PNGs for social sharing.">
+<meta name="theme-color" content="#CCFF00">
+<meta property="og:title" content="DevMockup Pro — Turn code into shareable visuals">
+<meta property="og:description" content="Customise code mockups with developer frames, typography, gradients and export presets.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23CCFF00' stroke='%23000' stroke-width='3'/%3E%3Cpath d='M11 11l-4 5 4 5M21 11l4 5-4 5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<script>
+  // Apply saved theme before paint to avoid a flash
+  (function () {
+    try {
+      var t = localStorage.getItem('dmp_theme');
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (t === 'dark') document.documentElement.classList.add('dark');
+      if (localStorage.getItem('isPro') === 'true') document.documentElement.classList.add('is-pro');
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
+        },
+        colors: { lime: '#CCFF00', coral: '#FF6B6B', cream: '#F4F4F0' }
+      }
+    }
+  };
+</script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+
+<!-- Google AdSense: add your loader here once your site is approved.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+
+<style>
+  /* ---------- Design tokens ---------- */
+  :root {
+    --bg: #F4F4F0; --ink: #000000; --card: #FFFFFF; --muted: #45453f;
+    --lime: #CCFF00; --coral: #FF6B6B; --soft: #ECECE4;
+    --sh: 4px 4px 0 var(--ink);
+  }
+  .dark {
+    --bg: #0E0E0D; --ink: #F4F4F0; --card: #1A1A19; --muted: #A5A59D; --soft: #242422;
+  }
+  html { scroll-padding-top: 90px; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; overflow-x: hidden; transition: background .25s, color .25s; }
+  .muted { color: var(--muted); }
+  ::selection { background: var(--lime); color: #000; }
+  :focus-visible { outline: 3px solid #005fcc; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+
+  /* ---------- Neo-brutalism ---------- */
+  .nb-card { background: var(--card); border: 3px solid var(--ink); box-shadow: var(--sh); border-radius: 16px; }
+  .nb-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    font-weight: 800; font-size: .9rem; padding: .6rem 1rem; line-height: 1.1;
+    border: 3px solid var(--ink); border-radius: 10px; background: var(--card); color: var(--ink);
+    box-shadow: 4px 4px 0 var(--ink); cursor: pointer; user-select: none;
+    transition: transform .08s ease, box-shadow .08s ease, background .15s;
+  }
+  .nb-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .nb-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
+  .nb-btn:disabled { opacity: .65; cursor: not-allowed; transform: none; box-shadow: 4px 4px 0 var(--ink); }
+  .btn-lime { background: var(--lime); color: #000; }
+  .btn-coral { background: var(--coral); color: #000; }
+  .btn-sm { padding: .4rem .7rem; font-size: .8rem; box-shadow: 3px 3px 0 var(--ink); border-width: 2.5px; }
+  .nb-input {
+    width: 100%; background: var(--card); color: var(--ink); border: 3px solid var(--ink);
+    border-radius: 10px; padding: .55rem .8rem; font-weight: 600; font-size: .9rem;
+  }
+  .nb-input::placeholder { color: var(--muted); font-weight: 500; }
+  .label { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; }
+  .opt {
+    position: relative; display: flex; align-items: center; justify-content: center; gap: .4rem;
+    padding: .5rem .5rem; font-weight: 800; font-size: .8rem; border: 3px solid var(--ink); border-radius: 10px;
+    background: var(--card); color: var(--ink); cursor: pointer; box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .08s, box-shadow .08s, background .15s;
+  }
+  .opt:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .opt:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+  .opt.active { background: var(--lime); color: #000; }
+  .opt .lock { position: absolute; top: -9px; right: -7px; background: var(--coral); color: #000; border: 2px solid var(--ink); border-radius: 999px; width: 20px; height: 20px; display: grid; place-items: center; }
+  .opt .lock svg { width: 11px; height: 11px; }
+  input[type="range"] { width: 100%; accent-color: var(--coral); height: 8px; cursor: pointer; }
+  .tag { display: inline-flex; align-items: center; gap: .3rem; font-size: .7rem; font-weight: 800; padding: .15rem .55rem; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--lime); color: #000; text-transform: uppercase; letter-spacing: .05em; }
+  .swatch { width: 100%; aspect-ratio: 1.4; border: 3px solid var(--ink); border-radius: 10px; cursor: pointer; position: relative; box-shadow: 3px 3px 0 var(--ink); transition: transform .08s, box-shadow .08s; }
+  .swatch:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .swatch:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+  .swatch.active { outline: 3px solid var(--coral); outline-offset: 3px; }
+  .swatch .lock { position: absolute; top: -9px; right: -7px; background: var(--coral); color: #000; border: 2px solid var(--ink); border-radius: 999px; width: 20px; height: 20px; display: grid; place-items: center; }
+  .swatch .lock svg { width: 11px; height: 11px; }
+  .chip { display: inline-flex; align-items: center; gap: .35rem; border: 2.5px solid var(--ink); border-radius: 999px; padding: .2rem .35rem .2rem .7rem; font-weight: 700; font-size: .8rem; background: var(--card); }
+  .chip button { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; }
+  .chip button:hover { background: var(--coral); color: #000; }
+  .dot-grid { background-image: radial-gradient(var(--ink) 1.2px, transparent 1.2px); background-size: 22px 22px; opacity: .13; }
+  .marquee-bar { background: var(--lime); color: #000; border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink); }
+
+  /* ---------- Liquid Glass ---------- */
+  .glass {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(255,255,255,.34));
+    -webkit-backdrop-filter: blur(16px) saturate(170%); backdrop-filter: blur(16px) saturate(170%);
+    border: 1px solid rgba(255,255,255,.65);
+    box-shadow: 0 10px 40px rgba(20,20,40,.22), inset 0 1px 0 rgba(255,255,255,.8), inset 0 -1px 0 rgba(255,255,255,.2);
+    color: #0b0b0b;
+  }
+  .dark .glass {
+    background: linear-gradient(135deg, rgba(40,40,44,.68), rgba(20,20,22,.45));
+    border-color: rgba(255,255,255,.14);
+    box-shadow: 0 10px 40px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.12);
+    color: #F4F4F0;
+  }
+  .glass::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(120% 90% at 0% 0%, rgba(204,255,0,.28), transparent 55%), radial-gradient(90% 80% at 100% 100%, rgba(255,107,107,.26), transparent 55%);
+    z-index: 0;
+  }
+  .glass > * { position: relative; z-index: 1; }
+  .glass .nb-input { background: rgba(255,255,255,.55); color: #000; border-color: #000; }
+  .dark .glass .nb-input { background: rgba(0,0,0,.35); color: #F4F4F0; border-color: #F4F4F0; }
+  .glass .nb-btn { border-color: #000; box-shadow: 3px 3px 0 #000; }
+  .dark .glass .nb-btn:not(.btn-lime):not(.btn-coral) { background: #232326; color: #F4F4F0; border-color: #F4F4F0; box-shadow: 3px 3px 0 #F4F4F0; }
+  .dark .glass .btn-lime, .dark .glass .btn-coral { border-color: #F4F4F0; box-shadow: 3px 3px 0 #F4F4F0; }
+  .glass .nb-btn:hover { box-shadow: 5px 5px 0 #000; }
+  .glass .nb-btn:active { box-shadow: 0 0 0 #000; }
+
+  /* ---------- Modals ---------- */
+  .modal { position: fixed; inset: 0; z-index: 120; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .modal.open { display: flex; }
+  .modal-backdrop { position: absolute; inset: 0; background: rgba(10,10,12,.45); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: fadeIn .2s ease; }
+  .modal-panel { width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto; border-radius: 24px; padding: 28px; animation: popIn .25s cubic-bezier(.2,.9,.3,1.2); }
+  .modal-panel h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; }
+  .modal-panel p, .modal-panel li { font-size: .9rem; line-height: 1.6; }
+  .modal-panel h4 { font-weight: 800; margin-top: 1rem; margin-bottom: .25rem; }
+  .modal-close { position: absolute !important; top: 14px; right: 14px; z-index: 5 !important; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes popIn { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+  .spinner { width: 18px; height: 18px; border-radius: 50%; border: 3px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite; display: inline-block; }
+  .spinner-lg { width: 40px; height: 40px; border-width: 5px; }
+
+  /* ---------- Toasts ---------- */
+  #toasts { position: fixed; top: 76px; right: 16px; z-index: 200; display: flex; flex-direction: column; gap: 10px; width: min(360px, calc(100vw - 32px)); pointer-events: none; }
+  .toast { pointer-events: auto; display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; font-weight: 700; font-size: .88rem; animation: slideUp .25s ease; }
+  .toast .ico { flex: none; width: 26px; height: 26px; border-radius: 999px; display: grid; place-items: center; border: 2px solid #000; color: #000; }
+  .toast.success .ico { background: var(--lime); } .toast.error .ico { background: var(--coral); } .toast.info .ico { background: #9be7ff; }
+  .toast .ico svg { width: 14px; height: 14px; }
+  .toast.leaving { opacity: 0; transform: translateX(30px); transition: all .3s; }
+
+  /* ---------- Header / drawer / misc ---------- */
+  #progress { position: fixed; top: 0; left: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--coral), var(--lime)); z-index: 300; transition: width .1s linear; }
+  .skip-link { position: fixed; left: 12px; top: -80px; z-index: 400; }
+  .skip-link:focus { top: 12px; }
+  #drawer { position: fixed; inset: 0; z-index: 140; pointer-events: none; }
+  #drawer .scrim { position: absolute; inset: 0; background: rgba(10,10,12,.4); opacity: 0; transition: opacity .25s; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  #drawer .panel { position: absolute; top: 0; right: 0; height: 100%; width: min(320px, 85vw); transform: translateX(105%); transition: transform .3s cubic-bezier(.2,.8,.2,1); border-radius: 24px 0 0 24px; padding: 24px; }
+  #drawer.open { pointer-events: auto; } #drawer.open .scrim { opacity: 1; } #drawer.open .panel { transform: none; }
+  #toTop { position: fixed; right: 16px; bottom: 92px; z-index: 90; opacity: 0; pointer-events: none; transform: translateY(12px); transition: opacity .25s, transform .25s; }
+  #toTop.show { opacity: 1; pointer-events: auto; transform: none; }
+  #fab { position: fixed; left: 50%; bottom: 16px; z-index: 85; transform: translate(-50%, 24px); opacity: 0; pointer-events: none; transition: all .3s; border-radius: 20px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; max-width: calc(100vw - 24px); }
+  #fab.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+  body.cookie-open #fab { bottom: 128px; } body.cookie-open #toTop { bottom: 204px; }
+  #cookie { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 110; max-width: 760px; margin: 0 auto; border-radius: 20px; padding: 16px 18px; display: none; animation: slideUp .35s ease; }
+  #cookie.show { display: block; }
+
+  /* Pro / free visibility */
+  .pro-only { display: none !important; }
+  html.is-pro .pro-only { display: revert !important; }
+  html.is-pro .free-only { display: none !important; }
+  html.is-pro .pro-only.flex { display: flex !important; }
+  html.is-pro .pro-only.inline-flex { display: inline-flex !important; }
+
+  /* FAQ */
+  .faq-item { border: 3px solid var(--ink); border-radius: 14px; background: var(--card); box-shadow: 4px 4px 0 var(--ink); overflow: hidden; }
+  .faq-q { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; font-weight: 800; font-size: 1rem; }
+  .faq-q svg { transition: transform .25s; flex: none; }
+  .faq-item.open .faq-q svg { transform: rotate(180deg); }
+  .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .faq-item.open .faq-a { grid-template-rows: 1fr; }
+  .faq-a > div { overflow: hidden; }
+  .faq-a p { padding: 0 18px 18px; font-size: .92rem; line-height: 1.65; color: var(--muted); }
+
+  /* ---------- Preview stage ---------- */
+  #stage { width: 100%; overflow: hidden; border: 3px solid var(--ink); border-radius: 14px; background-color: var(--soft); background-image: linear-gradient(45deg, rgba(128,128,128,.14) 25%, transparent 25%, transparent 75%, rgba(128,128,128,.14) 75%), linear-gradient(45deg, rgba(128,128,128,.14) 25%, transparent 25%, transparent 75%, rgba(128,128,128,.14) 75%); background-size: 20px 20px; background-position: 0 0, 10px 10px; position: relative; }
+  #scaler { width: 960px; transform-origin: top left; }
+  #canvas { width: 960px; min-height: 540px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  #previewLoading { position: absolute; inset: 0; z-index: 5; display: none; place-items: center; background: rgba(244,244,240,.7); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .dark #previewLoading { background: rgba(14,14,13,.7); }
+  #previewLoading.show { display: grid; }
+  .skeleton { background: linear-gradient(90deg, rgba(128,128,128,.15) 25%, rgba(128,128,128,.3) 37%, rgba(128,128,128,.15) 63%); background-size: 800px 100%; animation: shimmer 1.2s infinite linear; border-radius: 8px; }
+  .wm { position: absolute; right: 18px; bottom: 14px; font: 800 13px 'Plus Jakarta Sans', sans-serif; color: #000; background: rgba(255,255,255,.82); border: 2px solid #000; border-radius: 999px; padding: 5px 12px; letter-spacing: .01em; }
+
+  /* Device frames */
+  .frame { --fb:#0d1117; --fbar:#161b22; --ffg:#e6edf3; --fmut:#7d8590; --tc:#7d8590; --ts:#a5d6ff; --tn:#79c0ff; --tk:#ff7b72; --tf:#d2a8ff; --fline:#30363d; width: 100%; }
+  .frame.f-light { --fb:#ffffff; --fbar:#f1f1f1; --ffg:#24292f; --fmut:#8c959f; --tc:#6e7781; --ts:#0a3069; --tn:#0550ae; --tk:#cf222e; --tf:#8250df; --fline:#d0d7de; }
+  .frame .code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.65; color: var(--ffg); margin: 0; tab-size: 2; }
+  .tk-c { color: var(--tc); font-style: italic; } .tk-s { color: var(--ts); } .tk-n { color: var(--tn); } .tk-k { color: var(--tk); } .tk-f { color: var(--tf); }
+  .codewrap { display: flex; gap: 16px; padding: 20px 22px; background: var(--fb); overflow: hidden; }
+  .codewrap .code { flex: 1; min-width: 0; white-space: pre-wrap; word-break: break-word; }
+  .codewrap.nowrap .code { white-space: pre; overflow: hidden; word-break: normal; }
+  .ln { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.65; color: var(--fmut); text-align: right; user-select: none; white-space: pre; opacity: .7; }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 12px 14px; background: var(--fbar); border-bottom: 1px solid var(--fline); }
+  .dots { display: flex; gap: 8px; width: 52px; } .dots i { width: 12px; height: 12px; border-radius: 50%; display: block; }
+  .dots i:nth-child(1) { background: #ff5f57; } .dots i:nth-child(2) { background: #febc2e; } .dots i:nth-child(3) { background: #28c840; }
+  .bar-title { flex: 1; text-align: center; font: 600 12px 'JetBrains Mono', monospace; color: var(--fmut); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .url { flex: 1; background: var(--fb); border: 1px solid var(--fline); border-radius: 8px; padding: 4px 12px; font: 500 12px 'JetBrains Mono', monospace; color: var(--fmut); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dev-terminal .frame, .dev-browser .frame { border-radius: 12px; overflow: hidden; border: 1px solid var(--fline); }
+  .dev-macbook .frame { width: 82%; }
+  .mb-screen { background: #050507; border: 10px solid #121214; border-radius: 18px 18px 0 0; position: relative; overflow: hidden; outline: 1px solid #3a3a3e; }
+  .mb-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 90px; height: 14px; background: #121214; border-radius: 0 0 9px 9px; z-index: 2; }
+  .mb-screen .codewrap { padding-top: 30px; }
+  .mb-base { height: 14px; margin: 0 -5%; background: linear-gradient(#e3e3e6, #b4b4ba); border-radius: 0 0 16px 16px; position: relative; }
+  .mb-base::after { content: ''; position: absolute; left: 50%; top: 0; width: 110px; height: 5px; transform: translateX(-50%); background: #9a9aa0; border-radius: 0 0 8px 8px; }
+  .dev-iphone .frame { width: 340px; }
+  .dev-android .frame { width: 340px; }
+  .dev-android .ip-body { border-radius: 34px; }
+  .dev-vscode .frame, .dev-windows .frame, .dev-chrome .frame, .dev-generic .frame { border: 1px solid var(--fline); border-radius: 12px; overflow: hidden; }
+  .dev-vscode .bar { background:#20232a; color:#d8dee9; }
+  .dev-vscode .bar-title { text-align:left; }
+  .dev-windows .bar { background:#e5e7eb; color:#111827; }
+  .dev-windows .bar-title { color:#111827; }
+  .dev-chrome .bar { background:#e8eaed; }
+  .dev-chrome .bar-title { color:#333; }
+  .dev-generic .bar { background:var(--fbar); }
+  #canvas.transparent-stage { background-color:transparent !important; background-image:none !important; }
+  #canvas .code { text-align:var(--code-align,left); font-size:var(--code-size,14px); font-family:var(--code-font,'JetBrains Mono',monospace); }
+  #canvas .ln { font-size:var(--code-size,14px); font-family:var(--code-font,'JetBrains Mono',monospace); }
+  .custom-bg-note { font-size:.72rem; font-weight:700; color:var(--muted); margin-top:.35rem; }
+  .dev-iphone .code, .dev-iphone .ln { font-size: 11px; }
+  .ip-body { background: #050507; border: 12px solid #151517; border-radius: 54px; overflow: hidden; position: relative; outline: 2px solid #3a3a3e; }
+  .ip-island { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 92px; height: 26px; border-radius: 20px; background: #000; z-index: 2; }
+  .ip-body .codewrap { padding: 56px 18px 34px; min-height: 520px; gap: 10px; }
+  .ip-home { position: absolute; bottom: 9px; left: 50%; transform: translateX(-50%); width: 110px; height: 4px; border-radius: 4px; background: var(--ffg); opacity: .5; }
+
+  /* ---------- Animated theme switch ---------- */
+  .theme-switch { position: relative; flex: none; width: 68px; height: 36px; border: 3px solid var(--ink); border-radius: 999px; background: linear-gradient(180deg, #7fd3ff, #d9f2ff); box-shadow: 3px 3px 0 var(--ink); cursor: pointer; overflow: hidden; transition: background .5s, transform .08s, box-shadow .08s; }
+  .dark .theme-switch { background: linear-gradient(180deg, #121733, #2d2561); }
+  .theme-switch:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .theme-switch:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+  .ts-knob { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #FFD43B; border: 2.5px solid #000; color: #000; display: grid; place-items: center; box-shadow: 0 0 12px rgba(255,212,59,.9); transition: transform .5s cubic-bezier(.3,1.5,.5,1), background .4s, box-shadow .4s; z-index: 2; }
+  .dark .ts-knob { transform: translateX(32px) rotate(360deg); background: #F4F4F0; box-shadow: 0 0 12px rgba(220,225,255,.7); }
+  .ts-knob svg { position: absolute; width: 13px; height: 13px; transition: transform .55s cubic-bezier(.3,1.5,.5,1), opacity .3s; }
+  .ts-sun { opacity: 1; transform: rotate(0) scale(1); }
+  .ts-moon { opacity: 0; transform: rotate(-90deg) scale(.3); }
+  .dark .ts-sun { opacity: 0; transform: rotate(90deg) scale(.3); }
+  .dark .ts-moon { opacity: 1; transform: rotate(0) scale(1); }
+  .ts-clouds, .ts-stars { position: absolute; inset: 0; pointer-events: none; transition: opacity .4s, transform .5s; }
+  .ts-clouds { background: radial-gradient(circle at 46px 24px, #fff 5px, transparent 5.5px), radial-gradient(circle at 54px 20px, #fff 5px, transparent 5.5px), radial-gradient(circle at 36px 26px, #fff 4px, transparent 4.5px); }
+  .ts-stars { opacity: 0; transform: translateY(8px); background: radial-gradient(circle at 12px 9px, #fff 1.6px, transparent 2px), radial-gradient(circle at 22px 22px, #fff 1.1px, transparent 1.6px), radial-gradient(circle at 36px 11px, #fff 1.3px, transparent 1.8px), radial-gradient(circle at 18px 15px, #FFE9A8 1px, transparent 1.5px); animation: twinkle 2s ease-in-out infinite alternate; }
+  .dark .ts-clouds { opacity: 0; transform: translateX(-14px); }
+  .dark .ts-stars { opacity: 1; transform: none; }
+  @keyframes twinkle { from { filter: brightness(.7); } to { filter: brightness(1.5); } }
+  html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after { transition-property: background-color, color, border-color, box-shadow, fill, stroke !important; transition-duration: .45s !important; transition-timing-function: ease !important; }
+
+  /* ---------- Cross (close) buttons ---------- */
+  .close-x svg { transition: transform .4s cubic-bezier(.3,1.6,.5,1); }
+  .close-x:hover svg { transform: rotate(90deg) scale(1.2); }
+  .modal.open .close-x svg, #drawer.open .close-x svg { animation: spinIn .5s cubic-bezier(.3,1.5,.5,1) both; }
+  @keyframes spinIn { from { transform: rotate(-180deg) scale(0); } to { transform: rotate(0) scale(1); } }
+  #toTop svg { transition: transform .25s; } #toTop:hover svg { transform: translateY(-3px); }
+
+  /* ---------- Cursor buddies (Pac-Man + ghost) ---------- */
+  /* Pac-Man sits directly beside the theme switch in the header. */
+  #pacLayer { position: relative; display: inline-block; flex: 0 0 34px; width: 34px; height: 36px; pointer-events: none; z-index: 60; overflow: visible; opacity: 1; transition: opacity .3s; }
+  #pacLayer.off { display: none; }
+  #pacLayer #ghost { display: none; }
+  #pac, #ghost { position: absolute; left: 0; top: 1px; width: 34px; height: 34px; will-change: transform; }
+  .pac-scale { width: 34px; height: 34px; transition: transform .25s cubic-bezier(.3,1.6,.5,1); }
+  #pac.big .pac-scale { transform: scale(1.45); }
+  #pac.munch .pac-scale { animation: munch .25s ease; }
+  @keyframes munch { 0% { transform: scale(1); } 40% { transform: scale(.7, 1.25); } 100% { transform: scale(1); } }
+  .pac-rot { position: relative; width: 34px; height: 34px; --chomp: .7s; }
+  .pac-half { position: absolute; left: 0; width: 34px; height: 18px; background: #FFD400; border: 3px solid #000; }
+  .pac-top { top: 0; border-radius: 17px 17px 0 0; transform-origin: 50% 100%; animation: chompTop var(--chomp) ease-in-out infinite alternate; }
+  .pac-bot { top: 16px; border-radius: 0 0 17px 17px; transform-origin: 50% 0; animation: chompBot var(--chomp) ease-in-out infinite alternate; }
+  .pac-eye { position: absolute; left: 19px; top: 3px; width: 5px; height: 5px; border-radius: 50%; background: #000; }
+  @keyframes chompTop { from { transform: rotate(0); } to { transform: rotate(-36deg); } }
+  @keyframes chompBot { from { transform: rotate(0); } to { transform: rotate(36deg); } }
+  #pac.big .pac-top { animation-duration: .18s; }
+  #pac.big .pac-bot { animation-duration: .18s; }
+  .dark #pac .pac-scale, .dark #ghost svg { filter: drop-shadow(0 0 1.2px #fff) drop-shadow(0 0 1.2px #fff); }
+  .ghost-bob { animation: ghostBob .7s ease-in-out infinite alternate; }
+  @keyframes ghostBob { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
+  #ghost svg { display: block; margin: 0 2px; }
+  #ghost .g-pupil { transform: translate(var(--gx, 0px), var(--gy, 0px)); }
+  #ghost.scared .g-fill { fill: #4F7CFF; }
+  #ghost.scared .ghost-bob { animation-duration: .18s; }
+  .pellet { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #FFE9A8; border: 2px solid #000; box-sizing: border-box; transform: translate(-50%, -50%); }
+  .pellet.burst { background: #CCFF00; }
+
+  /* ---------- Print ---------- */
+  @media print {
+    @page { margin: 12mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff !important; color: #000 !important; }
+    header, footer, #progress, #pacLayer, .no-print, .modal, #toasts, #cookie, #toTop, #fab, #drawer, .skip-link, .controls, #previewActions { display: none !important; }
+    main > section:not(#workspace) { display: none !important; }
+    #workspace { padding: 0 !important; } #workspace .grid { display: block !important; }
+    #stage { height: auto !important; border: none !important; background: none !important; }
+    #scaler { transform: none !important; zoom: .68; }
+  }
+</style>
+</head>
+
+<body>
+<div id="progress" aria-hidden="true"></div>
+<a href="#main" class="skip-link nb-btn btn-lime">Skip to content</a>
+<noscript><div style="padding:16px;background:#FF6B6B;color:#000;font-weight:800;text-align:center">DevMockup Pro needs JavaScript to render mockups. Please enable it and reload.</div></noscript>
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-50 border-b-[3px] border-[color:var(--ink)]" style="background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+    <a href="#top" id="logo" class="flex items-center gap-2.5" aria-label="DevMockup Pro — back to top">
+      <span class="grid h-10 w-10 place-items-center rounded-lg border-[3px] border-[color:var(--ink)] bg-lime text-black" style="box-shadow: 3px 3px 0 var(--ink)"><i data-lucide="code-xml" class="h-5 w-5"></i></span>
+      <span class="text-lg font-extrabold tracking-tight sm:text-xl">DevMockup <span class="rounded-md bg-coral px-1.5 text-black">Pro</span></span>
+    </a>
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      <a class="rounded-lg px-3 py-2 text-sm font-bold hover:bg-lime hover:text-black" href="#workspace">Workspace</a>
+      <a class="rounded-lg px-3 py-2 text-sm font-bold hover:bg-lime hover:text-black" href="#pricing">Pricing</a>
+      <a class="rounded-lg px-3 py-2 text-sm font-bold hover:bg-lime hover:text-black" href="#faq">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button id="themeToggle" class="theme-switch" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="ts-clouds" aria-hidden="true"></span><span class="ts-stars" aria-hidden="true"></span>
+        <span class="ts-knob"><i data-lucide="sun" class="ts-sun"></i><i data-lucide="moon" class="ts-moon"></i></span>
+      </button>
+      <div id="pacLayer" aria-hidden="true">
+  <div id="ghost"><div class="ghost-bob">
+    <svg viewBox="0 0 30 34" width="30" height="34" fill="none">
+      <path class="g-fill" d="M2 32V15C2 7.3 7.6 2 15 2s13 5.3 13 13v17l-4.33-4-4.34 4-4.33-4-4.34 4-4.33-4-4.33 4z" fill="#FF6B6B" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse cx="10.5" cy="14" rx="4" ry="5" fill="#fff" stroke="#000" stroke-width="1.5"/>
+      <ellipse cx="20.5" cy="14" rx="4" ry="5" fill="#fff" stroke="#000" stroke-width="1.5"/>
+      <circle class="g-pupil" cx="10.5" cy="14" r="2" fill="#000"/>
+      <circle class="g-pupil" cx="20.5" cy="14" r="2" fill="#000"/>
+    </svg>
+  </div></div>
+  <div id="pac"><div class="pac-scale"><div class="pac-rot" id="pacRot">
+    <span class="pac-half pac-top"><i class="pac-eye"></i></span><span class="pac-half pac-bot"></span>
+  </div></div></div>
+</div>
+      <span class="tag pro-only inline-flex"><i data-lucide="sparkles" class="h-3 w-3"></i> Pro</span>
+      <button class="nb-btn btn-sm btn-lime free-only hidden sm:inline-flex" data-open="checkout"><i data-lucide="zap" class="h-4 w-4"></i> Go Pro — $5</button>
+      <button id="menuBtn" class="nb-btn btn-sm md:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><i data-lucide="menu" class="h-4 w-4"></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div id="drawer" aria-hidden="true">
+  <div class="scrim" data-drawer-close></div>
+  <aside class="panel glass" role="dialog" aria-label="Menu">
+    <div class="mb-6 flex items-center justify-between">
+      <span class="text-lg font-extrabold">Menu</span>
+      <button class="nb-btn btn-sm btn-coral close-x" data-drawer-close aria-label="Close menu"><i data-lucide="x" class="h-4 w-4"></i></button>
+    </div>
+    <nav class="flex flex-col gap-2" aria-label="Mobile">
+      <a data-drawer-close class="nb-btn" href="#workspace">Workspace</a>
+      <a data-drawer-close class="nb-btn" href="#pricing">Pricing</a>
+      <a data-drawer-close class="nb-btn" href="#faq">FAQ</a>
+      <button data-drawer-close data-open="checkout" class="nb-btn btn-lime free-only"><i data-lucide="zap" class="h-4 w-4"></i> Go Pro — $5 lifetime</button>
+      <button data-drawer-close data-open="support" class="nb-btn">Support</button>
+    </nav>
+  </aside>
+</div>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ============ HERO ============ -->
+<section class="no-print relative border-b-[3px] border-[color:var(--ink)]">
+  <div class="dot-grid pointer-events-none absolute inset-0"></div>
+  <div class="relative mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
+    <div class="max-w-3xl">
+      <span class="tag mb-5"><i data-lucide="bolt" class="h-3 w-3"></i> No sign-up · Runs in your browser</span>
+      <h1 class="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Make your code look <span class="inline-block -rotate-1 border-[3px] border-[color:var(--ink)] bg-lime px-3 text-black" style="box-shadow:5px 5px 0 var(--ink)">unreal.</span></h1>
+      <p class="muted mt-6 max-w-2xl text-lg font-medium leading-relaxed">Turn code and text into polished visuals. Choose a developer frame, tune typography and backgrounds, then export PNG, JPG or SVG sizes for your README, portfolio and social posts.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#workspace" class="nb-btn btn-lime !px-6 !py-3.5 text-base"><i data-lucide="wand-sparkles" class="h-5 w-5"></i> Start mocking up</a>
+        <a href="#pricing" class="nb-btn !px-6 !py-3.5 text-base">See Pro — $5 once</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Monetisation placeholder: no ads or tracking are active in this build. -->
+<div class="free-only no-print mx-auto max-w-7xl px-4 pt-6 sm:px-6" id="adTop"><div class="mx-auto max-w-3xl rounded-xl border-[3px] border-dashed border-[color:var(--ink)] p-4 text-center text-sm font-bold muted" style="background:var(--soft)">DevMockup Pro is currently ad-free during its early preview.</div></div>
+
+<!-- ============ WORKSPACE ============ -->
+<section id="workspace" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14" aria-labelledby="ws-title">
+  <div class="mb-6 flex flex-wrap items-end justify-between gap-3 no-print">
+    <div>
+      <h2 id="ws-title" class="text-3xl font-extrabold tracking-tight sm:text-4xl">Mockup workspace</h2>
+      <p class="muted mt-1 font-medium">Everything updates live in your browser. Your code and text are not uploaded by this app; hosting and external asset providers may still receive ordinary connection data.</p>
+    </div>
+    <button id="resetBtn" class="nb-btn btn-sm"><i data-lucide="rotate-ccw" class="h-4 w-4"></i> Reset</button>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
+    <!-- Controls -->
+    <div class="controls nb-card h-fit p-5 lg:sticky lg:top-24">
+      <div class="space-y-5">
+        <div>
+          <div class="mb-1.5 flex items-center justify-between">
+            <label class="label !mb-0" for="code">Your code or text</label>
+            <select id="sample" class="nb-input !w-auto !py-1 !text-xs" aria-label="Load an example">
+              <option value="">Load example…</option>
+              <option value="js">Node.js server</option>
+              <option value="py">Python script</option>
+              <option value="sh">Terminal session</option>
+              <option value="copy">Landing page copy</option>
+            </select>
+          </div>
+          <textarea id="code" aria-label="Code or text to turn into a mockup" class="nb-input font-mono" style="font-size:.8rem;line-height:1.55;min-height:210px;resize:vertical" spellcheck="false" maxlength="6000" placeholder="Paste anything here…"></textarea>
+          <div class="mt-1 flex justify-between text-xs font-bold muted"><span id="lineCount">0 lines</span><span id="charCount">0 / 6000</span></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="label" for="lang">Highlighting</label>
+            <select id="lang" class="nb-input">
+              <option value="javascript">JavaScript / TypeScript</option>
+              <option value="python">Python</option>
+              <option value="json">JSON</option><option value="sql">SQL</option>
+              <option value="cpp">C / C++</option><option value="java">Java</option>
+              <option value="html">HTML</option><option value="css">CSS</option>
+              <option value="bash">Bash / Shell</option><option value="plain">Plain text</option>
+            </select>
+          </div>
+          <div>
+            <label class="label" for="title">Window title</label>
+            <input id="title" class="nb-input" type="text" maxlength="60" placeholder="server.js">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3" id="customDimensions">
+          <div><label class="label" for="customWidth">Canvas width</label><input id="customWidth" class="nb-input" type="number" min="320" max="3840" step="10" value="1200"></div>
+          <div><label class="label" for="customHeight">Canvas height</label><input id="customHeight" class="nb-input" type="number" min="320" max="3840" step="10" value="675"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="label" for="fontFamily">Code font</label><select id="fontFamily" class="nb-input"><option value="jetbrains">JetBrains Mono</option><option value="fira">Fira Code</option><option value="ibm">IBM Plex Mono</option><option value="mono">System monospace</option></select></div>
+          <div><label class="label" for="fontSize">Font size <span id="fontSizeVal">14px</span></label><input id="fontSize" class="nb-input" type="range" min="10" max="24" step="1" value="14"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="label" for="textAlign">Text alignment</label><select id="textAlign" class="nb-input"><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select></div>
+          <div><label class="label" for="aspectPreset">Canvas preset</label><select id="aspectPreset" class="nb-input"><option value="landscape">Landscape 16:9</option><option value="square">Square 1:1</option><option value="portrait">Portrait 4:5</option><option value="story">Story 9:16</option><option value="wide">Wide 2:1</option><option value="custom">Custom 1200×675</option></select></div>
+        </div>
+
+        <div>
+          <span class="label">Device frame</span>
+          <div class="grid grid-cols-2 gap-3" id="deviceGroup" role="group" aria-label="Device frame">
+            <button class="opt" data-device="terminal"><i data-lucide="terminal" class="h-4 w-4"></i> Terminal</button>
+            <button class="opt" data-device="browser"><i data-lucide="globe" class="h-4 w-4"></i> Browser</button>
+            <button class="opt" data-device="macbook" data-pro="1"><i data-lucide="laptop" class="h-4 w-4"></i> MacBook<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+            <button class="opt" data-device="iphone" data-pro="1"><i data-lucide="smartphone" class="h-4 w-4"></i> iPhone<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+            <button class="opt" data-device="vscode" data-pro="1"><i data-lucide="code" class="h-4 w-4"></i> VS Code<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+            <button class="opt" data-device="windows" data-pro="1"><i data-lucide="app-window" class="h-4 w-4"></i> Windows<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+            <button class="opt" data-device="chrome" data-pro="1"><i data-lucide="chrome" class="h-4 w-4"></i> Chrome<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+            <button class="opt" data-device="android" data-pro="1"><i data-lucide="smartphone" class="h-4 w-4"></i> Android<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+            <button class="opt" data-device="generic" data-pro="1"><i data-lucide="app-window" class="h-4 w-4"></i> App window<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <span class="label">Frame theme</span>
+            <div class="grid grid-cols-2 gap-2" id="themeGroup">
+              <button class="opt" data-ftheme="dark"><i data-lucide="moon" class="h-3.5 w-3.5"></i> Dark</button>
+              <button class="opt" data-ftheme="light"><i data-lucide="sun" class="h-3.5 w-3.5"></i> Light</button>
+            </div>
+          </div>
+          <div>
+            <span class="label">Line numbers</span>
+            <div class="grid grid-cols-2 gap-2" id="lineGroup">
+              <button class="opt" data-lines="1">On</button>
+              <button class="opt" data-lines="0">Off</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="label">Background</span>
+          <div class="grid grid-cols-4 gap-3" id="bgGroup" role="group" aria-label="Background gradient"></div>
+          <div class="mt-3 grid grid-cols-2 gap-3">
+            <div><label class="label" for="customColor">Custom colour</label><input id="customColor" type="color" value="#CCFF00" class="nb-input !h-11 !p-1"></div>
+            <div><label class="label" for="bgImage">Background image</label><input id="bgImage" type="file" accept="image/png,image/jpeg,image/webp" class="nb-input !text-xs !p-2"></div>
+          </div>
+          <div class="mt-2 flex items-center gap-2"><input id="transparentBg" type="checkbox" class="h-4 w-4"><label for="transparentBg" class="text-sm font-bold">Transparent background</label><button id="clearBgImage" type="button" class="ml-auto text-xs font-extrabold underline">Clear image</button></div>
+          <p class="custom-bg-note">Uploaded background images stay in this browser session and are not sent to a server.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label flex justify-between" for="pad"><span>Padding</span><span id="padVal">64px</span></label>
+            <input id="pad" type="range" min="16" max="120" step="4">
+          </div>
+          <div>
+            <label class="label flex justify-between" for="shadow"><span>Shadow</span><span id="shadowVal">50</span></label>
+            <input id="shadow" type="range" min="0" max="100" step="5">
+          </div>
+        </div>
+
+        <div>
+          <span class="label">Export resolution</span>
+          <div class="grid grid-cols-2 gap-3" id="resGroup">
+            <button class="opt" data-res="1080">1080p · 1920px</button>
+            <button class="opt" data-res="4k" data-pro="1">4K · 3840px<span class="lock free-only"><i data-lucide="lock"></i></span></button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="label" for="exportFormat">Export format</label><select id="exportFormat" class="nb-input"><option value="png">PNG</option><option value="jpg">JPG</option><option value="svg">SVG</option></select></div>
+          <div><label class="label" for="socialPreset">Social size</label><select id="socialPreset" class="nb-input"><option value="none">Current canvas</option><option value="youtube">YouTube thumbnail</option><option value="instagram">Instagram square</option><option value="portrait">Instagram portrait</option><option value="story">Story / Reel</option><option value="x">X / Twitter post</option></select></div>
+        </div>
+
+        <div class="border-t-[3px] border-dashed border-[color:var(--ink)] pt-4">
+          <div class="mb-2 flex items-center justify-between"><span class="label !mb-0">Saved presets</span><span class="tag">Pro</span></div>
+          <div class="pro-only">
+            <div class="flex gap-2">
+              <input id="presetName" class="nb-input" maxlength="24" placeholder="Preset name">
+              <button id="savePreset" class="nb-btn btn-sm btn-lime shrink-0"><i data-lucide="bookmark-plus" class="h-4 w-4"></i> Save</button>
+            </div>
+            <div id="presetList" class="mt-3 flex flex-wrap gap-2"></div>
+          </div>
+          <p class="free-only text-sm font-semibold muted">Save your favorite device, gradient and spacing combos. <button class="font-extrabold underline decoration-2" style="color:var(--ink)" data-open="checkout">Unlock with Pro</button></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="nb-card min-w-0 p-4 sm:p-5">
+      <div class="no-print mb-4 flex flex-wrap items-center justify-between gap-3" id="previewActions">
+        <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-full border-2 border-[color:var(--ink)] bg-lime"></span><span class="text-sm font-extrabold uppercase tracking-wider">Live preview</span></div>
+        <div class="flex flex-wrap gap-2">
+          <button id="copyCode" class="nb-btn btn-sm"><i data-lucide="copy" class="h-4 w-4"></i> Copy code</button>
+          <button id="copyImg" class="nb-btn btn-sm"><i data-lucide="image" class="h-4 w-4"></i> Copy PNG</button>
+          <button id="printBtn" class="nb-btn btn-sm hidden sm:inline-flex"><i data-lucide="printer" class="h-4 w-4"></i> Print</button>
+          <button id="exportBtn" class="nb-btn btn-sm btn-lime"><span class="btn-ico"><i data-lucide="download" class="h-4 w-4"></i></span><span class="btn-label">Export file</span></button>
+        </div>
+      </div>
+      <div id="stage">
+        <div id="scaler"><div id="canvas" role="img" aria-label="Generated mockup preview. Use the code input and export controls to access your content."></div></div>
+        <div id="previewLoading" aria-hidden="true">
+          <div class="flex flex-col items-center gap-4">
+            <div class="spinner spinner-lg"></div>
+            <div class="flex w-56 flex-col gap-2"><div class="skeleton h-3 w-full"></div><div class="skeleton h-3 w-4/5"></div><div class="skeleton h-3 w-3/5"></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="no-print mt-3 text-xs font-bold muted">Exports at <span id="resNote">1920 px wide</span>. <span class="free-only">Free exports include a small watermark.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee strip -->
+<div class="marquee-bar no-print overflow-hidden py-3 text-sm font-extrabold uppercase tracking-widest">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-1 px-4">
+    <span>Terminal</span><span>✦</span><span>MacBook</span><span>✦</span><span>iPhone</span><span>✦</span><span>Browser</span><span>✦</span><span>PNG up to 4K</span>
+  </div>
+</div>
+
+<!-- ============ HOW IT WORKS / EXAMPLES ============ -->
+<section class="no-print mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-labelledby="how-title">
+  <div class="text-center"><span class="tag">Made for developers</span><h2 id="how-title" class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">From raw code to share-worthy visuals.</h2><p class="muted mx-auto mt-3 max-w-2xl">A simple workflow for tutorials, portfolios, README files and launch posts.</p></div>
+  <div class="mt-8 grid gap-4 md:grid-cols-3">
+    <article class="nb-card p-5"><div class="mb-3 grid h-12 w-12 place-items-center rounded-xl border-[3px] border-[color:var(--ink)] bg-lime text-black"><i data-lucide="clipboard-paste"></i></div><h3 class="font-extrabold">1. Paste</h3><p class="muted mt-2 text-sm">Add a code snippet, terminal output or short text.</p></article>
+    <article class="nb-card p-5"><div class="mb-3 grid h-12 w-12 place-items-center rounded-xl border-[3px] border-[color:var(--ink)] bg-coral text-black"><i data-lucide="sliders-horizontal"></i></div><h3 class="font-extrabold">2. Customise</h3><p class="muted mt-2 text-sm">Choose a frame, font, colours, spacing and canvas size.</p></article>
+    <article class="nb-card p-5"><div class="mb-3 grid h-12 w-12 place-items-center rounded-xl border-[3px] border-[color:var(--ink)] bg-lime text-black"><i data-lucide="image-down"></i></div><h3 class="font-extrabold">3. Export</h3><p class="muted mt-2 text-sm">Download a PNG, JPG or SVG for your next post or project.</p></article>
+  </div>
+  <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="nb-card overflow-hidden p-3"><div class="rounded-lg bg-gradient-to-br from-lime to-coral p-4"><div class="rounded-lg border-2 border-black bg-[#111827] p-3 font-mono text-xs text-white">const idea = "ship it";<br>console.log(idea);</div></div><p class="mt-3 font-extrabold">Code snippets</p></div>
+    <div class="nb-card overflow-hidden p-3"><div class="rounded-lg bg-gradient-to-br from-sky-400 to-blue-700 p-4"><div class="rounded-lg border border-slate-500 bg-slate-950 p-3 font-mono text-xs text-emerald-300">$ npm run build<br>✓ Build completed</div></div><p class="mt-3 font-extrabold">Terminal sessions</p></div>
+    <div class="nb-card overflow-hidden p-3"><div class="rounded-lg bg-gradient-to-br from-violet-400 to-pink-400 p-4"><div class="rounded-lg border border-black bg-white p-3 text-sm font-extrabold text-black">Build something<br>worth sharing.</div></div><p class="mt-3 font-extrabold">Product copy</p></div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="no-print mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20" aria-labelledby="pricing-title">
+  <div class="mb-10 text-center">
+    <h2 id="pricing-title" class="text-3xl font-extrabold tracking-tight sm:text-5xl">Free forever. <span class="bg-coral px-2 text-black">$5</span> to go all in.</h2>
+    <p class="muted mx-auto mt-3 max-w-xl font-medium">Planned $5 lifetime upgrade. Checkout is not connected yet; no purchases can currently be made.</p>
+  </div>
+  <div class="grid gap-6 md:grid-cols-2">
+    <div class="nb-card p-6">
+      <h3 class="text-xl font-extrabold">Free</h3>
+      <p class="mt-1 text-4xl font-extrabold">$0</p>
+      <ul class="mt-5 space-y-2.5 text-sm font-semibold">
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> Terminal &amp; Browser frames</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> 4 solid gradients</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> 1080p PNG export</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> Small “Made with DevMockup Pro” watermark</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> Ad-free during preview</li>
+      </ul>
+      <a href="#workspace" class="nb-btn mt-6 w-full">Open the workspace</a>
+    </div>
+    <div class="nb-card relative bg-lime p-6 !text-black" style="--card:#CCFF00; --ink:#000; --sh:6px 6px 0 #000; color:#000">
+      <span class="absolute -top-4 right-5 rotate-3 rounded-lg border-[3px] border-black bg-coral px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-black">Best value</span>
+      <h3 class="text-xl font-extrabold">Pro · Lifetime</h3>
+      <p class="mt-1 text-4xl font-extrabold">$5 <span class="text-base font-bold opacity-70">planned lifetime price</span></p>
+      <ul class="mt-5 space-y-2.5 text-sm font-bold">
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> Everything in Free</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> No watermark, no ads</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> 4K Ultra-HD exports (3840px)</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> MacBook, iPhone, VS Code, Windows, Chrome &amp; Android frames</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> 4 premium mesh gradients</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> Local preset saving</li>
+        <li class="flex gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0"></i> Advanced typography, image backgrounds &amp; export formats</li>
+      </ul>
+      <button class="nb-btn mt-6 w-full !bg-black !text-white free-only" style="border-color:#000;box-shadow:4px 4px 0 #000" data-open="checkout"><i data-lucide="zap" class="h-4 w-4"></i> Get Pro for $5</button>
+      <div class="pro-only mt-6">
+        <div class="nb-btn w-full !cursor-default !bg-black !text-white" style="border-color:#000"><i data-lucide="check" class="h-4 w-4"></i> You’re Pro — thank you!</div>
+        <button id="resetPro" class="mt-3 w-full text-center text-xs font-extrabold underline decoration-2">Deactivate Pro on this device (demo)</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="no-print mx-auto max-w-3xl px-4 pb-20 sm:px-6" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="mb-8 text-center text-3xl font-extrabold tracking-tight sm:text-4xl">Questions, answered</h2>
+  <div class="space-y-4" id="faqList">
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>Is my code uploaded anywhere?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button>
+      <div class="faq-a"><div><p>Rendering and export run in your browser. This app code does not send entered text to a server, but external resources and hosting may receive ordinary technical connection data. Settings and presets are stored locally.</p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>What exactly do I get with Pro?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button>
+      <div class="faq-a"><div><p>Pro removes the watermark and ads, unlocks 4K (3840 px wide) exports, adds the MacBook and iPhone frames plus four premium mesh gradients, and lets you save your favorite setups as local presets.</p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>Is the $5 really a one-time payment?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button>
+      <div class="faq-a"><div><p>The planned price is $5 once. Checkout is not connected in this preview, so no purchase can currently be completed and the local Pro preview flag is not proof of payment.</p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>Which export formats and sizes are supported?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button><div class="faq-a"><div><p>PNG, JPG and SVG are available. Canvas presets include landscape, square, portrait, story and wide formats; 4K output remains a Pro preview feature.</p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>Can I use the exports commercially?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button>
+      <div class="faq-a"><div><p>Absolutely. The images you make are yours: use them in blog posts, product pages, courses, ads or client work. Make sure you have the right to share the code or text you put inside them.</p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>Why is there a watermark on free exports?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button>
+      <div class="faq-a"><div><p>It keeps the free tier sustainable. The watermark is small and sits in the bottom-right corner. Going Pro removes it from every future export.</p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span>Which browsers are supported?</span><i data-lucide="chevron-down" class="h-5 w-5"></i></button>
+      <div class="faq-a"><div><p>Current versions of Chrome, Edge, Firefox and Safari. If an export ever looks off in one browser, try again once the page fonts have finished loading, or use Chrome for the most consistent results.</p></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t-[3px] border-[color:var(--ink)]" style="background: var(--card)">
+  <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-4 py-8 sm:flex-row sm:px-6">
+    <div class="flex items-center gap-2.5">
+      <span class="grid h-8 w-8 place-items-center rounded-md border-[3px] border-[color:var(--ink)] bg-lime text-black"><i data-lucide="code-xml" class="h-4 w-4"></i></span>
+      <span class="text-sm font-extrabold">© <span id="year">2026</span> DevMockup Pro. All rights reserved.</span>
+    </div>
+    <nav class="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm font-bold" aria-label="Footer">
+      <a class="hover:underline" href="#workspace">Workspace</a>
+      <a class="hover:underline" href="#pricing">Pricing</a>
+      <a class="hover:underline" href="#faq">FAQ</a>
+      <button class="font-bold hover:underline" data-open="terms">Terms</button>
+      <button class="font-bold hover:underline" data-open="privacy">Privacy</button>
+      <button class="font-bold hover:underline" data-open="cookies">Cookie policy</button>
+      <button class="font-bold hover:underline" data-open="refunds">Refund policy</button>
+      <button class="font-bold hover:underline" data-open="support">Support</button>
+      <button class="font-bold hover:underline" id="cookieSettings">Cookie settings</button>
+      <button class="font-bold hover:underline" id="pacToggle" aria-pressed="true">Pac-Man: On</button>
+    </nav>
+  </div>
+</footer>
+
+<!-- ============ FLOATING UI ============ -->
+<div id="fab" class="glass" role="toolbar" aria-label="Quick actions">
+  <button class="nb-btn btn-sm" id="fabCopy"><i data-lucide="copy" class="h-4 w-4"></i> Copy code</button>
+  <button class="nb-btn btn-sm btn-lime" id="fabExport"><span class="btn-ico"><i data-lucide="download" class="h-4 w-4"></i></span><span class="btn-label">Export file</span></button>
+</div>
+<button id="toTop" class="nb-btn btn-coral" aria-label="Back to top"><i data-lucide="arrow-up" class="h-5 w-5"></i></button>
+<div id="toasts" role="status" aria-live="polite"></div>
+
+<div id="cookie" class="glass" role="dialog" aria-label="Cookie consent">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm font-semibold leading-relaxed">This demo stores essential preferences in your browser. No analytics or ad tags are active in this file. Read our <button class="font-extrabold underline decoration-2" data-open="privacy">Privacy Policy</button> and <button class="font-extrabold underline decoration-2" data-open="cookies">Cookie Policy</button>.</p>
+    <div class="flex shrink-0 gap-2">
+      <button class="nb-btn btn-sm" id="cookieDecline">Essential only</button>
+      <button class="nb-btn btn-sm btn-lime" id="cookieAccept">Accept all</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div class="modal" id="modal-checkout" role="dialog" aria-modal="true" aria-labelledby="co-title">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel glass">
+    <button class="nb-btn btn-sm btn-coral modal-close close-x" data-close aria-label="Close"><i data-lucide="x" class="h-4 w-4"></i></button>
+    <span class="tag mb-3"><i data-lucide="sparkles" class="h-3 w-3"></i> Lifetime access</span>
+    <h3 id="co-title">Unlock DevMockup Pro</h3>
+    <p class="mt-1 opacity-80">Planned one-time price: <strong>$5.00</strong>. Real checkout is not connected in this preview.</p>
+    <div class="mt-5 space-y-3">
+<p class="rounded-xl border-2 border-current p-3 text-sm font-bold">Demo only: no payment provider is connected, no payment will be taken, and this button only activates a local preview flag on this device.</p>
+<button type="button" id="coDemoActivate" class="nb-btn btn-lime w-full !py-3.5 text-base"><i data-lucide="sparkles" class="h-4 w-4"></i> Preview Pro (no payment)</button>
+<p class="text-xs font-semibold opacity-70">Do not enter card details on this demo. Before launch, replace this with hosted checkout from your chosen payment processor.</p>
+</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-terms" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+<div class="modal-backdrop" data-close></div><div class="modal-panel glass">
+<button class="nb-btn btn-sm btn-coral modal-close close-x" data-close aria-label="Close Terms of Service"><i data-lucide="x" class="h-4 w-4"></i></button>
+<h3 id="terms-title">Terms of Service</h3><p class="mt-1 text-xs font-bold opacity-70">Last updated: November 1, 2026</p>
+<p><strong>Template notice:</strong> This is not legal advice. Replace all placeholders and obtain review for the countries where you operate.</p>
+<h4>1. Service and eligibility</h4><p>DevMockup Pro provides browser-based tools for creating code and text mockups. Use the service only where lawful and only if legally able to agree. Minors must obtain any consent required by applicable law and their parent or guardian.</p>
+<h4>2. Your content</h4><p>You retain rights to content you provide. You are responsible for having permission to use it and for avoiding confidential, personal, unlawful or infringing material. Rendering is designed to happen locally, although hosting and external resources may receive technical connection data.</p>
+<h4>3. Availability</h4><p>Features may change, be interrupted or discontinued. Keep your own copies of important content. Mandatory consumer rights are not excluded.</p>
+<h4>4. Pro and payments</h4><p>The current checkout is a demonstration only. It does not take payment or create a real purchase. Before launch, disclose the seller, total price, currency, taxes, renewal status, delivery and support process through a real payment provider.</p>
+<h4>5. Acceptable use</h4><p>Do not use the service to break the law, infringe rights, compromise systems or upload content you are not entitled to use.</p>
+<h4>6. Disclaimers</h4><p>To the extent permitted by law, the service is provided without guarantees of uninterrupted or error-free operation. Nothing limits rights or liabilities that cannot lawfully be limited.</p>
+<h4>7. Operator and contact</h4><p>Operator: [INSERT LEGAL BUSINESS NAME]. Contact: [INSERT SUPPORT EMAIL AND BUSINESS ADDRESS]. Complete these details before publishing.</p>
+</div></div>
+
+<div class="modal" id="modal-privacy" role="dialog" aria-modal="true" aria-labelledby="priv-title">
+<div class="modal-backdrop" data-close></div><div class="modal-panel glass">
+<button class="nb-btn btn-sm btn-coral modal-close close-x" data-close aria-label="Close Privacy Policy"><i data-lucide="x" class="h-4 w-4"></i></button>
+<h3 id="priv-title">Privacy Policy</h3><p class="mt-1 text-xs font-bold opacity-70">Last updated: November 1, 2026</p>
+<p><strong>Template notice:</strong> This describes the inspected HTML file, not services added later. Verify every statement before publishing.</p>
+<h4>1. Data and local processing</h4><p>Your code/text and exported images are processed in your browser by this app. Browser local storage holds theme, workspace settings, presets, cookie preference and a demo Pro flag. Do not enter secrets or confidential information.</p>
+<h4>2. Forms and minimisation</h4><p>The support form is currently a front-end demonstration and does not transmit messages. It requests an email and message only to demonstrate the intended form. A production form should collect only necessary information, explain its purpose, retention period and recipients, and use a secure backend.</p>
+<h4>3. Analytics and advertising</h4><p>No analytics provider or analytics tracking code was found in this HTML file. The Google AdSense snippet is commented out and is not active here. If analytics, ads, pixels or tracking are added, update this policy and obtain legally required consent before non-essential tracking.</p>
+<h4>4. Third-party resources</h4><p>This page loads Google Fonts (including the selected code font families), Tailwind from its CDN, Lucide from unpkg and html-to-image from jsDelivr. Those providers may receive technical request information such as IP address and browser metadata. Review vendor terms, consider self-hosting, and disclose additional third-party embeds.</p>
+<h4>5. Storage and choices</h4><p>The app uses browser local storage; this is not technically a cookie, though similar storage may be regulated by privacy/e-privacy laws. You can clear it in browser settings. The consent selector records a choice but does not currently control active analytics or ad tags because none are enabled in this file.</p>
+<h4>6. Rights and contact</h4><p>Contact [INSERT PRIVACY EMAIL] and identify the operator [INSERT LEGAL BUSINESS NAME]. Depending on location, rights may include access, correction, deletion, restriction or objection.</p>
+<h4>7. Updates</h4><p>Update this policy whenever data practices, vendors, hosting, forms, analytics, ads or payments change.</p>
+</div></div>
+
+<div class="modal" id="modal-refunds" role="dialog" aria-modal="true" aria-labelledby="refund-title">
+<div class="modal-backdrop" data-close></div><div class="modal-panel glass">
+<button class="nb-btn btn-sm btn-coral modal-close close-x" data-close aria-label="Close Refund Policy"><i data-lucide="x" class="h-4 w-4"></i></button>
+<h3 id="refund-title">Refund Policy</h3><p class="mt-1 text-xs font-bold opacity-70">Last updated: November 1, 2026</p>
+<p><strong>Current status:</strong> The checkout in this demo does not process payments. No real purchase or refund can be made through this page.</p>
+<h4>When paid purchases launch</h4><p>Publish the seller's legal name and contact details, payment provider, refund request method, eligible period, treatment of duplicate/failed payments and expected processing times. Honour all mandatory refund, cancellation and consumer rights. A blanket no-refunds statement cannot override statutory rights.</p>
+<h4>Requesting help</h4><p>Contact [INSERT BILLING SUPPORT EMAIL] with your order reference. Never send full card numbers, security codes or passwords by email.</p>
+</div></div>
+
+<div class="modal" id="modal-cookies" role="dialog" aria-modal="true" aria-labelledby="cookies-title">
+<div class="modal-backdrop" data-close></div><div class="modal-panel glass">
+<button class="nb-btn btn-sm btn-coral modal-close close-x" data-close aria-label="Close Cookie Policy"><i data-lucide="x" class="h-4 w-4"></i></button>
+<h3 id="cookies-title">Cookie &amp; Storage Policy</h3><p class="mt-1 text-xs font-bold opacity-70">Last updated: November 1, 2026</p>
+<h4>What is used now?</h4><p>The inspected app uses local storage for theme, settings, presets, demo Pro status and your consent choice. Local storage is not technically a cookie, although privacy/e-privacy laws may regulate similar storage technologies.</p>
+<h4>Optional tracking</h4><p>No analytics tags or active ad tags were found in this file. AdSense is commented out. If advertising, analytics, pixels, video embeds or other non-essential storage are added, configure consent controls to block them until valid consent where required by law.</p>
+<h4>Managing your choice</h4><p>Use Cookie settings in the footer to change your saved preference. Clearing site data removes the saved preference. The current banner records your preference but does not technically gate third-party scripts.</p>
+</div></div>
+
+<div class="modal" id="modal-support" role="dialog" aria-modal="true" aria-labelledby="sup-title">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel glass">
+    <button class="nb-btn btn-sm btn-coral modal-close close-x" data-close aria-label="Close"><i data-lucide="x" class="h-4 w-4"></i></button>
+    <h3 id="sup-title">Contact support</h3>
+    <p class="mt-1 opacity-80">Bug, feature idea or billing question? This preview form is not connected to an inbox yet.</p>
+    <form id="supportForm" class="mt-5 space-y-3" novalidate>
+      <div><label class="label" for="supEmail">Your email</label><input class="nb-input" id="supEmail" type="email" placeholder="you@company.com"></div>
+      <div><label class="label" for="supMsg">Message</label><textarea class="nb-input" id="supMsg" rows="5" maxlength="2000" placeholder="What can we help with?"></textarea></div>
+      <p class="text-xs font-semibold opacity-80">Demo form: your email and message are not transmitted or saved. A live form must explain who receives the data and how long it is kept.</p>
+      <label class="flex items-start gap-2 text-xs font-semibold"><input id="supConsent" type="checkbox" required class="mt-0.5"> I understand this is a demo form and no message will be sent.</label>
+      <button type="submit" class="nb-btn btn-lime w-full"><i data-lucide="send" class="h-4 w-4"></i> Preview form</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- helpers ---------- */
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const store = {
+    get(k, d = null) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const icons = () => { try { window.lucide && lucide.createIcons(); } catch (e) {} };
+  const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+  /* ---------- data ---------- */
+  const BACKGROUNDS = [
+    { id: 'sunburst', name: 'Sunburst', css: 'linear-gradient(135deg,#CCFF00 0%,#FF6B6B 100%)' },
+    { id: 'ocean', name: 'Ocean', css: 'linear-gradient(135deg,#00C6FF 0%,#0072FF 100%)' },
+    { id: 'grape', name: 'Grape', css: 'linear-gradient(135deg,#a18cd1 0%,#fbc2eb 100%)' },
+    { id: 'slate', name: 'Slate', css: 'linear-gradient(135deg,#232526 0%,#414345 100%)' },
+    { id: 'aurora', name: 'Aurora', pro: true, css: 'radial-gradient(at 18% 22%,#7C3AED 0,transparent 52%),radial-gradient(at 82% 12%,#06B6D4 0,transparent 50%),radial-gradient(at 72% 88%,#F472B6 0,transparent 52%),#0f172a' },
+    { id: 'ember', name: 'Ember', pro: true, css: 'radial-gradient(at 15% 80%,#FF6B6B 0,transparent 50%),radial-gradient(at 85% 20%,#FFB347 0,transparent 52%),radial-gradient(at 50% 50%,#CCFF00 0,transparent 60%),#2b0f1a' },
+    { id: 'lagoon', name: 'Lagoon', pro: true, css: 'radial-gradient(at 20% 15%,#34D399 0,transparent 50%),radial-gradient(at 85% 35%,#38BDF8 0,transparent 52%),radial-gradient(at 40% 95%,#A78BFA 0,transparent 55%),#052e2b' },
+    { id: 'candy', name: 'Candy', pro: true, css: 'radial-gradient(at 10% 10%,#FDE68A 0,transparent 50%),radial-gradient(at 90% 15%,#F9A8D4 0,transparent 52%),radial-gradient(at 60% 90%,#93C5FD 0,transparent 55%),#fff1f2' }
+  ];
+  const PRO_DEVICES = ['macbook', 'iphone', 'vscode', 'windows', 'chrome', 'android', 'generic'];
+  const KW_JS = new Set('const let var function return if else for while do switch case break continue new class extends import from export default async await try catch finally throw typeof instanceof in of this super null true false undefined static get set yield interface type enum'.split(' '));
+  const KW_PY = new Set('def class return if elif else for while in not and or is import from as with try except finally raise lambda None True False pass yield async await global nonlocal break continue print'.split(' '));
+  const RE_JS = /(\/\/.*|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`)|(\b\d+(?:\.\d+)?\b)|([A-Za-z_$][\w$]*)/g;
+  const RE_PY = /(#.*)|("""[\s\S]*?"""|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|(\b\d+(?:\.\d+)?\b)|([A-Za-z_][\w]*)/g;
+
+  const SAMPLES = {
+    js: { lang: 'javascript', title: 'server.js', device: 'terminal', code: [
+      'import { createServer } from "node:http";',
+      '',
+      'const PORT = process.env.PORT ?? 3000;',
+      '',
+      '// Tiny JSON API with zero dependencies',
+      'const server = createServer(async (req, res) => {',
+      '  if (req.url === "/health") {',
+      '    res.writeHead(200, { "Content-Type": "application/json" });',
+      '    return res.end(JSON.stringify({ ok: true, uptime: process.uptime() }));',
+      '  }',
+      '  res.writeHead(404).end();',
+      '});',
+      '',
+      'server.listen(PORT, () => {',
+      '  console.log(`Listening on http://localhost:${PORT}`);',
+      '});'
+    ].join('\n') },
+    py: { lang: 'python', title: 'fib.py', device: 'browser', code: [
+      'from functools import lru_cache',
+      '',
+      '@lru_cache(maxsize=None)',
+      'def fib(n: int) -> int:',
+      '    """Return the nth Fibonacci number."""',
+      '    if n < 2:',
+      '        return n',
+      '    return fib(n - 1) + fib(n - 2)',
+      '',
+      '# Memoized, so this finishes instantly',
+      'print([fib(i) for i in range(12)])'
+    ].join('\n') },
+    sh: { lang: 'plain', title: 'zsh — 80×24', device: 'terminal', code: [
+      '$ npm create vite@latest my-app -- --template react',
+      '✔ Scaffolding project in ./my-app',
+      '',
+      '$ cd my-app && npm install',
+      'added 214 packages in 6s',
+      '',
+      '$ npm run dev',
+      '  VITE v6.0.0  ready in 312 ms',
+      '  ➜  Local:   http://localhost:5173/'
+    ].join('\n') },
+    copy: { lang: 'plain', title: 'hero.txt', device: 'browser', code: [
+      'Ship faster with fewer meetings.',
+      '',
+      'Plan the sprint, track the work and share',
+      'progress in one calm workspace your whole',
+      'team actually enjoys opening.',
+      '',
+      '→ Start free. No credit card required.'
+    ].join('\n') }
+  };
+
+  const DEFAULTS = { code: SAMPLES.js.code, lang: 'javascript', device: 'terminal', title: 'server.js', pad: 64, shadow: 50, bg: 'sunburst', ftheme: 'dark', lines: true, res: '1080', fontSize: 14, fontFamily: 'jetbrains', textAlign: 'left', aspect: 'landscape', customW: 1200, customH: 675, customColor: '#CCFF00', transparent: false };
+  let state = Object.assign({}, DEFAULTS);
+  let customBgUrl = null;
+  const ASPECTS = { landscape:[960,540], square:[800,800], portrait:[800,1000], story:[720,1280], wide:[1200,600], custom:[1200,675] };
+  const FONT_STACKS = { jetbrains:'\"JetBrains Mono\", ui-monospace, monospace', fira:'\"Fira Code\", ui-monospace, monospace', ibm:'\"IBM Plex Mono\", ui-monospace, monospace', mono:'ui-monospace, SFMono-Regular, Menlo, monospace' };
+  let isPro = store.get('isPro') === 'true';
+
+  /* ---------- toasts ---------- */
+  function toast(msg, type = 'success', ms = 3200) {
+    const wrap = $('#toasts');
+    const el = document.createElement('div');
+    el.className = 'toast glass ' + type;
+    const ic = type === 'success' ? 'check' : type === 'error' ? 'x' : 'info';
+    el.innerHTML = '<span class="ico"><i data-lucide="' + ic + '"></i></span><span style="padding-top:2px">' + esc(msg) + '</span>';
+    wrap.appendChild(el);
+    icons();
+    while (wrap.children.length > 4) wrap.firstChild.remove();
+    setTimeout(() => { el.classList.add('leaving'); setTimeout(() => el.remove(), 320); }, ms);
+  }
+
+  /* ---------- modals ---------- */
+  let lastFocus = null;
+  function openModal(name) {
+    const m = $('#modal-' + name); if (!m) return;
+    lastFocus = document.activeElement;
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const f = $('input, textarea, button:not(.modal-close)', m.querySelector('.modal-panel'));
+    setTimeout(() => f && f.focus(), 50);
+  }
+  function closeModals() {
+    $$('.modal.open').forEach(m => m.classList.remove('open'));
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.addEventListener('click', e => {
+    const o = e.target.closest('[data-open]');
+    if (o) { e.preventDefault(); closeDrawer(); if (o.dataset.open === 'checkout' && isPro) { toast('Pro is already active on this device.', 'info'); return; } openModal(o.dataset.open); return; }
+    if (e.target.closest('[data-close]')) closeModals();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModals(); closeDrawer(); }
+  });
+
+  /* ---------- drawer ---------- */
+  const drawer = $('#drawer'), menuBtn = $('#menuBtn');
+  function openDrawer() { drawer.classList.add('open'); drawer.setAttribute('aria-hidden', 'false'); menuBtn.setAttribute('aria-expanded', 'true'); }
+  function closeDrawer() { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); menuBtn.setAttribute('aria-expanded', 'false'); }
+  menuBtn.addEventListener('click', openDrawer);
+  $$('[data-drawer-close]').forEach(b => b.addEventListener('click', closeDrawer));
+
+  /* ---------- theme ---------- */
+  function applyTheme(t) {
+    document.documentElement.classList.toggle('dark', t === 'dark');
+    $('#themeToggle').setAttribute('aria-checked', String(t === 'dark'));
+    store.set('dmp_theme', t);
+  }
+  $('#themeToggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.classList.add('theme-anim');
+    applyTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    setTimeout(() => root.classList.remove('theme-anim'), 650);
+  });
+
+  /* ---------- scroll UI ---------- */
+  const progress = $('#progress'), toTop = $('#toTop');
+  function onScroll() {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    toTop.classList.toggle('show', h.scrollTop > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  $('#logo').addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', location.pathname + location.search); });
+
+  /* ---------- syntax highlighting ---------- */
+  const EXTRA_KW = {
+    json: new Set(['true','false','null']),
+    sql: new Set('SELECT FROM WHERE JOIN LEFT RIGHT INNER OUTER ON AS INSERT INTO VALUES UPDATE SET DELETE CREATE TABLE DROP ALTER ORDER BY GROUP HAVING LIMIT DISTINCT AND OR NOT NULL PRIMARY KEY FOREIGN REFERENCES COUNT SUM AVG'.split(' ')),
+    cpp: new Set('int float double char bool void auto const static class struct public private protected return if else for while do switch case break continue include using namespace std new delete nullptr true false template typename virtual override'.split(' ')),
+    java: new Set('public private protected static final class interface extends implements void int long double float boolean char return if else for while switch case break new this super null true false import package try catch finally throw'.split(' ')),
+    html: new Set(['html','head','body','div','span','p','a','img','button','input','script','style','section','main','header','footer']),
+    css: new Set('color background display position relative absolute fixed flex grid width height margin padding border font-size font-family transform transition hover media'.split(' ')),
+    bash: new Set('if then else fi for in do done function echo cd ls mkdir rm cp mv grep cat export sudo sudo apt'.split(' '))
+  };
+  function highlight(code, lang) {
+    if (lang === 'plain') return esc(code);
+    const re = lang === 'python' ? RE_PY : RE_JS;
+    const kw = lang === 'python' ? KW_PY : (EXTRA_KW[lang] || KW_JS);
+    re.lastIndex = 0;
+    let out = '', last = 0, m;
+    while ((m = re.exec(code)) !== null) {
+      out += esc(code.slice(last, m.index));
+      const t = m[0];
+      if (m[1]) out += '<span class="tk-c">' + esc(t) + '</span>';
+      else if (m[2]) out += '<span class="tk-s">' + esc(t) + '</span>';
+      else if (m[3]) out += '<span class="tk-n">' + esc(t) + '</span>';
+      else if (kw.has(t)) out += '<span class="tk-k">' + esc(t) + '</span>';
+      else if (code[re.lastIndex] === '(') out += '<span class="tk-f">' + esc(t) + '</span>';
+      else out += esc(t);
+      last = re.lastIndex;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    return out + esc(code.slice(last));
+  }
+
+  /* ---------- rendering ---------- */
+  const canvas = $('#canvas'), stage = $('#stage'), scaler = $('#scaler');
+  const bgCss = id => (BACKGROUNDS.find(b => b.id === id) || BACKGROUNDS[0]).css;
+
+  function frameHTML() {
+    const lines = state.code.split('\n').length;
+    const ln = state.lines ? '<div class="ln" aria-hidden="true">' + Array.from({ length: lines }, (_, i) => i + 1).join('\n') + '</div>' : '';
+    const body = '<div class="codewrap' + (state.lines ? ' nowrap' : '') + '">' + ln + '<pre class="code"><code>' + highlight(state.code, state.lang) + '</code></pre></div>';
+    const t = esc(state.title || '');
+    const d = state.device;
+    if (d === 'terminal') return '<div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="bar-title">' + t + '</div><span style="width:52px"></span></div>' + body;
+    if (d === 'browser' || d === 'chrome') return '<div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">' + (d === 'chrome' ? '🔒 https://devmockup.local/' : t) + '</div><span style="width:52px"></span></div>' + body;
+    if (d === 'vscode') return '<div class="bar"><span style="font-size:12px;color:#9ca3af">● ● ●</span><div class="bar-title">' + t + ' — Visual Studio Code</div></div>' + body;
+    if (d === 'windows') return '<div class="bar"><div class="bar-title">' + t + '</div><span style="font-size:12px;color:#111">— □ ×</span></div>' + body;
+    if (d === 'generic') return '<div class="bar"><div class="bar-title">' + t + '</div></div>' + body;
+    if (d === 'macbook') return '<div class="mb-screen"><div class="mb-notch"></div>' + body + '</div><div class="mb-base"></div>';
+    return '<div class="ip-body"><div class="ip-island"></div>' + body + '<div class="ip-home"></div></div>';
+  }
+
+  function render() {
+    const s = state.shadow;
+    const shadow = s === 0 ? 'none' : 'drop-shadow(0 ' + Math.round(s * 0.5) + 'px ' + Math.round(s * 0.9) + 'px rgba(0,0,0,' + (0.18 + s * 0.0045).toFixed(2) + '))';
+    canvas.className = 'dev-' + state.device + (state.transparent ? ' transparent-stage' : '');
+    const dims = state.aspect === 'custom' ? [state.customW || 1200, state.customH || 675] : (ASPECTS[state.aspect] || ASPECTS.landscape);
+    canvas.style.width = dims[0] + 'px'; canvas.style.minHeight = dims[1] + 'px'; canvas.style.height = dims[1] + 'px';
+    canvas.style.setProperty('--code-size', state.fontSize + 'px');
+    canvas.style.setProperty('--code-font', FONT_STACKS[state.fontFamily] || FONT_STACKS.jetbrains);
+    canvas.style.setProperty('--code-align', state.textAlign);
+    canvas.style.background = state.transparent ? 'transparent' : customBgUrl ? 'center / cover no-repeat url("' + customBgUrl + '")' : state.bg === 'custom' ? state.customColor : bgCss(state.bg);
+    canvas.style.padding = state.pad + 'px';
+    canvas.innerHTML = '<div class="frame f-' + state.ftheme + '" style="filter:' + shadow + '">' + frameHTML() + '</div>' + (isPro ? '' : '<div class="wm">Made with DevMockup Pro</div>');
+    $('#lineCount').textContent = state.code.split('\n').length + ' lines';
+    $('#charCount').textContent = state.code.length + ' / 6000';
+    fit();
+  }
+
+  function fit() {
+    const avail = stage.clientWidth || 960;
+    const baseWidth = canvas.offsetWidth || 960;
+    const k = Math.min(1, avail / baseWidth);
+    scaler.style.transform = 'scale(' + k + ')';
+    stage.style.height = Math.ceil(canvas.offsetHeight * k) + 'px';
+  }
+
+  let loadTimer;
+  function flashLoading(ms = 220) {
+    const el = $('#previewLoading'); el.classList.add('show');
+    clearTimeout(loadTimer); loadTimer = setTimeout(() => el.classList.remove('show'), ms);
+  }
+
+  /* ---------- controls ---------- */
+  function buildBackgrounds() {
+    const g = $('#bgGroup');
+    g.innerHTML = BACKGROUNDS.map(b => {
+      const locked = b.pro && !isPro;
+      return '<button class="swatch' + (state.bg === b.id ? ' active' : '') + '" data-bg="' + b.id + '" style="background:' + b.css + '" aria-label="' + b.name + (b.pro ? ' (Pro)' : '') + '" title="' + b.name + (b.pro ? ' · Pro' : '') + '">' + (locked ? '<span class="lock"><i data-lucide="lock"></i></span>' : '') + '</button>';
+    }).join('');
+    icons();
+  }
+
+  function syncControls() {
+    $('#code').value = state.code;
+    $('#lang').value = state.lang;
+    $('#title').value = state.title;
+    $('#pad').value = state.pad; $('#padVal').textContent = state.pad + 'px';
+    $('#shadow').value = state.shadow; $('#shadowVal').textContent = state.shadow;
+    $$('#deviceGroup .opt').forEach(b => b.classList.toggle('active', b.dataset.device === state.device));
+    $$('#themeGroup .opt').forEach(b => b.classList.toggle('active', b.dataset.ftheme === state.ftheme));
+    $$('#lineGroup .opt').forEach(b => b.classList.toggle('active', (b.dataset.lines === '1') === state.lines));
+    $$('#resGroup .opt').forEach(b => b.classList.toggle('active', b.dataset.res === state.res));
+    $('#resNote').textContent = state.res === '4k' ? '4K · 3840px wide' : 'Standard · 1920px wide';
+    $('#fontSize').value = state.fontSize; $('#fontSizeVal').textContent = state.fontSize + 'px';
+    $('#fontFamily').value = state.fontFamily; $('#textAlign').value = state.textAlign; $('#aspectPreset').value = state.aspect;
+    $('#customColor').value = state.customColor; $('#transparentBg').checked = state.transparent;
+    $('#customWidth').value = state.customW; $('#customHeight').value = state.customH;
+    buildBackgrounds();
+  }
+
+  function gate(msg) {
+    toast(msg, 'info');
+    openModal('checkout');
+    return false;
+  }
+
+  const persist = debounce(() => store.set('dmp_state', JSON.stringify(state)), 300);
+  function update(patch, loading) {
+    Object.assign(state, patch);
+    if (loading) flashLoading();
+    syncControlsLight();
+    render(); persist();
+  }
+  function syncControlsLight() {
+    $('#padVal').textContent = state.pad + 'px';
+    $('#shadowVal').textContent = state.shadow;
+    $$('#deviceGroup .opt').forEach(b => b.classList.toggle('active', b.dataset.device === state.device));
+    $$('#themeGroup .opt').forEach(b => b.classList.toggle('active', b.dataset.ftheme === state.ftheme));
+    $$('#lineGroup .opt').forEach(b => b.classList.toggle('active', (b.dataset.lines === '1') === state.lines));
+    $$('#resGroup .opt').forEach(b => b.classList.toggle('active', b.dataset.res === state.res));
+    $$('#bgGroup .swatch').forEach(b => b.classList.toggle('active', b.dataset.bg === state.bg));
+    $('#resNote').textContent = state.res === '4k' ? '4K · 3840px wide' : 'Standard · 1920px wide';
+    $('#fontSize').value = state.fontSize; $('#fontSizeVal').textContent = state.fontSize + 'px';
+    $('#fontFamily').value = state.fontFamily; $('#textAlign').value = state.textAlign; $('#aspectPreset').value = state.aspect;
+    $('#customColor').value = state.customColor; $('#transparentBg').checked = state.transparent;
+    $('#customWidth').value = state.customW; $('#customHeight').value = state.customH;
+  }
+
+  $('#exportFormat').addEventListener('change', () => { const b=$('#exportBtn .btn-label'); if(b) b.textContent='Export '+$('#exportFormat').value.toUpperCase(); });
+  $('#fontSize').addEventListener('input', e => update({fontSize:+e.target.value}));
+  $('#fontFamily').addEventListener('change', e => update({fontFamily:e.target.value}));
+  $('#textAlign').addEventListener('change', e => update({textAlign:e.target.value}));
+  $('#aspectPreset').addEventListener('change', e => update({aspect:e.target.value}, true));
+  function updateCustomDimensions(){const w=Math.max(320,Math.min(3840,Number($('#customWidth').value)||1200));const h=Math.max(320,Math.min(3840,Number($('#customHeight').value)||675));$('#customWidth').value=w;$('#customHeight').value=h;update({aspect:'custom',customW:w,customH:h},true);$('#aspectPreset').value='custom';}
+  $('#customWidth').addEventListener('change',updateCustomDimensions);$('#customHeight').addEventListener('change',updateCustomDimensions);
+  $('#customColor').addEventListener('input', e => { customBgUrl=null; update({bg:'custom',customColor:e.target.value,transparent:false}); });
+  $('#transparentBg').addEventListener('change', e => update({transparent:e.target.checked}, true));
+  $('#bgImage').addEventListener('change', e => { const f=e.target.files && e.target.files[0]; if(!f) return; if(!/^image\/(png|jpeg|webp)$/.test(f.type)) return toast('Choose a PNG, JPG or WebP image.', 'error'); if(f.size>5*1024*1024) return toast('Background image must be 5 MB or smaller.', 'error'); const reader=new FileReader(); reader.onload=()=>{customBgUrl=reader.result; update({bg:'custom',transparent:false},true);}; reader.readAsDataURL(f); });
+  $('#clearBgImage').addEventListener('click',()=>{customBgUrl=null;update({bg:'sunburst',transparent:false},true);$('#bgImage').value='';});
+  $('#socialPreset').addEventListener('change',e=>{const map={youtube:'landscape',instagram:'square',portrait:'portrait',story:'story',x:'wide'};if(map[e.target.value])update({aspect:map[e.target.value]},true);});
+
+  $('#code').addEventListener('input', e => update({ code: e.target.value }));
+  $('#lang').addEventListener('change', e => update({ lang: e.target.value }));
+  $('#title').addEventListener('input', e => update({ title: e.target.value }));
+  $('#pad').addEventListener('input', e => update({ pad: +e.target.value }));
+  $('#shadow').addEventListener('input', e => update({ shadow: +e.target.value }));
+  $('#deviceGroup').addEventListener('click', e => {
+    const b = e.target.closest('.opt'); if (!b) return;
+    if (PRO_DEVICES.includes(b.dataset.device) && !isPro) return gate('The ' + b.textContent.trim() + ' frame is a Pro feature.');
+    update({ device: b.dataset.device }, true);
+  });
+  $('#themeGroup').addEventListener('click', e => { const b = e.target.closest('.opt'); if (b) update({ ftheme: b.dataset.ftheme }); });
+  $('#lineGroup').addEventListener('click', e => { const b = e.target.closest('.opt'); if (b) update({ lines: b.dataset.lines === '1' }); });
+  $('#resGroup').addEventListener('click', e => {
+    const b = e.target.closest('.opt'); if (!b) return;
+    if (b.dataset.res === '4k' && !isPro) return gate('4K Ultra-HD export is a Pro feature.');
+    update({ res: b.dataset.res });
+  });
+  $('#bgGroup').addEventListener('click', e => {
+    const b = e.target.closest('.swatch'); if (!b) return;
+    customBgUrl = null; $('#bgImage').value = '';
+    const bg = BACKGROUNDS.find(x => x.id === b.dataset.bg);
+    if (bg.pro && !isPro) return gate('The “' + bg.name + '” mesh gradient is a Pro feature.');
+    update({ bg: bg.id }, true);
+  });
+  $('#sample').addEventListener('change', e => {
+    const s = SAMPLES[e.target.value]; e.target.value = '';
+    if (!s) return;
+    update({ code: s.code, lang: s.lang, title: s.title, device: s.device }, true);
+    $('#code').value = s.code; $('#lang').value = s.lang; $('#title').value = s.title;
+    toast('Example loaded.', 'success', 1800);
+  });
+  $('#resetBtn').addEventListener('click', () => {
+    customBgUrl = null; $('#bgImage').value = '';
+    state = Object.assign({}, DEFAULTS);
+    syncControls(); flashLoading(); render(); persist();
+    toast('Workspace reset to defaults.', 'info');
+  });
+
+  /* ---------- clipboard ---------- */
+  async function copyCode() {
+    if (!state.code.trim()) return toast('Nothing to copy yet. Paste some code first.', 'error');
+    try { await navigator.clipboard.writeText(state.code); toast('Code copied to clipboard.'); }
+    catch (e) {
+      try { const t = $('#code'); t.select(); document.execCommand('copy'); t.setSelectionRange(0, 0); toast('Code copied to clipboard.'); }
+      catch (err) { toast('Copy failed. Select the text and press Ctrl/Cmd+C.', 'error'); }
+    }
+  }
+  $('#copyCode').addEventListener('click', copyCode);
+  $('#fabCopy').addEventListener('click', copyCode);
+
+  /* ---------- export ---------- */
+  let exporting = false;
+  function setExportBusy(b) {
+    exporting = b;
+    ['#exportBtn', '#fabExport', '#copyImg'].forEach(sel => {
+      const el = $(sel); if (!el) return;
+      el.disabled = b;
+      const ico = $('.btn-ico', el), lab = $('.btn-label', el);
+      if (ico) ico.innerHTML = b ? '<span class="spinner"></span>' : '<i data-lucide="download" class="h-4 w-4"></i>';
+      if (lab) lab.textContent = b ? 'Rendering…' : 'Export file';
+    });
+    icons();
+  }
+  async function renderImage() {
+    if (!window.htmlToImage) throw new Error('Export library failed to load. Check your connection and reload.');
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const dims = state.aspect === 'custom' ? [state.customW || 1200, state.customH || 675] : (ASPECTS[state.aspect] || ASPECTS.landscape);
+    const targetWidth = state.res === '4k' && isPro ? 3840 : 1920;
+    const pixelRatio = Math.max(1, targetWidth / dims[0]);
+    const opts = { pixelRatio, cacheBust: true, backgroundColor: state.transparent ? 'rgba(0,0,0,0)' : undefined };
+    const format = $('#exportFormat').value;
+    const method = format === 'jpg' ? 'toJpeg' : format === 'svg' ? 'toSvg' : 'toBlob';
+    try { return await htmlToImage[method](canvas, format === 'svg' ? { ...opts, pixelRatio: 1 } : opts); }
+    catch (e) { return await htmlToImage[method](canvas, Object.assign({ skipFonts: true }, opts)); }
+  }
+  async function exportPng() {
+    if (exporting) return;
+    if (!state.code.trim()) return toast('Add some code or text before exporting.', 'error');
+    setExportBusy(true);
+    try {
+      const result = await renderImage();
+      if (!result) throw new Error('The browser returned an empty image.');
+      const format = $('#exportFormat').value;
+      let url, ext = format;
+      if (format === 'svg') url = result;
+      else { const blob = format === 'jpg' ? await (await fetch(result)).blob() : result; url = URL.createObjectURL(blob); }
+      const a = document.createElement('a');
+      a.href = url; a.download = 'devmockup-' + Date.now() + '.' + ext;
+      document.body.appendChild(a); a.click(); a.remove();
+      if (format !== 'svg') setTimeout(() => URL.revokeObjectURL(url), 4000);
+      toast('Exported ' + format.toUpperCase() + ' successfully.');
+    } catch (e) {
+      toast(e && e.message ? e.message : 'Export failed. Please try again.', 'error', 4500);
+    } finally { setExportBusy(false); }
+  }
+  async function copyImage() {
+    if (exporting) return;
+    if (!navigator.clipboard || !window.ClipboardItem) return toast('Your browser can’t copy images. Use Export PNG instead.', 'error');
+    setExportBusy(true);
+    try {
+      const chosen = $('#exportFormat').value; let blob;
+      try { $('#exportFormat').value = 'png'; blob = await renderImage(); } finally { $('#exportFormat').value = chosen; }
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      toast('Image copied to clipboard.');
+    } catch (e) { toast('Couldn’t copy the image. Try Export PNG instead.', 'error'); }
+    finally { setExportBusy(false); }
+  }
+  $('#exportBtn').addEventListener('click', exportPng);
+  $('#fabExport').addEventListener('click', exportPng);
+  $('#copyImg').addEventListener('click', copyImage);
+  $('#printBtn').addEventListener('click', () => window.print());
+
+  /* ---------- presets (Pro) ---------- */
+  function loadPresets() { try { return JSON.parse(store.get('dmp_presets', '[]')) || []; } catch (e) { return []; } }
+  function renderPresets() {
+    const list = loadPresets(), el = $('#presetList');
+    el.innerHTML = list.length ? list.map((p, i) => '<span class="chip"><button data-apply="' + i + '" class="!w-auto px-1 font-bold" style="width:auto">' + esc(p.name) + '</button><button data-del="' + i + '" aria-label="Delete preset ' + esc(p.name) + '"><i data-lucide="x" class="h-3 w-3"></i></button></span>').join('') : '<span class="text-xs font-bold muted">No presets yet. Dial in a look, name it and hit Save.</span>';
+    icons();
+  }
+  $('#savePreset').addEventListener('click', () => {
+    if (!isPro) return gate('Presets are a Pro feature.');
+    const input = $('#presetName'), name = input.value.trim();
+    if (!name) return toast('Give your preset a name first.', 'error');
+    const list = loadPresets();
+    if (list.length >= 12) return toast('You can keep up to 12 presets. Delete one first.', 'error');
+    const { device, bg, pad, shadow, ftheme, lines, res, lang, fontSize, fontFamily, textAlign, aspect, customColor, transparent } = state;
+    list.push({ name, s: { device, bg, pad, shadow, ftheme, lines, res, lang, fontSize, fontFamily, textAlign, aspect, customColor, transparent } });
+    store.set('dmp_presets', JSON.stringify(list));
+    input.value = ''; renderPresets(); toast('Preset “' + name + '” saved.');
+  });
+  $('#presetList').addEventListener('click', e => {
+    const list = loadPresets();
+    const a = e.target.closest('[data-apply]'), d = e.target.closest('[data-del]');
+    if (a) { const p = list[+a.dataset.apply]; if (p) { update(p.s, true); syncControls(); toast('Preset applied.', 'success', 1800); } }
+    if (d) { const [r] = list.splice(+d.dataset.del, 1); store.set('dmp_presets', JSON.stringify(list)); renderPresets(); toast('Deleted “' + (r ? r.name : 'preset') + '”.', 'info'); }
+  });
+
+  /* ---------- Pro state ---------- */
+  function applyPro() {
+    document.documentElement.classList.toggle('is-pro', isPro);
+    if (!isPro) {
+      if (PRO_DEVICES.includes(state.device)) state.device = 'terminal';
+      const b = BACKGROUNDS.find(x => x.id === state.bg); if (!b || b.pro) state.bg = 'sunburst';
+      if (state.res === '4k') state.res = '1080';
+    }
+    syncControls(); renderPresets(); render();
+  }
+  function activatePro() { isPro = true; store.set('isPro', 'true'); applyPro(); }
+  $('#resetPro').addEventListener('click', () => { isPro = false; store.del('isPro'); applyPro(); toast('Pro deactivated on this device.', 'info'); });
+
+  /* ---------- checkout demo only ---------- */
+  $('#coDemoActivate').addEventListener('click', () => {
+    activatePro(); closeModals();
+    toast('Demo Pro preview enabled locally. No payment was taken.', 'info', 4500);
+  });
+
+  /* ---------- support ---------- */
+  $('#supportForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#supEmail').value.trim(), msg = $('#supMsg').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return toast('Please enter a valid email so we can reply.', 'error');
+    if (msg.length < 10) return toast('Tell us a bit more (at least 10 characters).', 'error');
+    if (!$('#supConsent').checked) return toast('Please confirm the demo-form notice.', 'error');
+    closeModals(); e.target.reset(); toast('Demo only: nothing was transmitted. Connect a secure support service before launch.', 'info', 4500);
+  });
+
+  /* ---------- FAQ ---------- */
+  $('#faqList').addEventListener('click', e => {
+    const q = e.target.closest('.faq-q'); if (!q) return;
+    const item = q.parentElement, open = !item.classList.contains('open');
+    item.classList.toggle('open', open); q.setAttribute('aria-expanded', String(open));
+  });
+
+  /* ---------- cookie consent ---------- */
+  const cookie = $('#cookie');
+  function showCookie() { cookie.classList.add('show'); document.body.classList.add('cookie-open'); }
+  function setCookie(v) { store.set('dmp_cookie', v); cookie.classList.remove('show'); document.body.classList.remove('cookie-open'); toast(v === 'all' ? 'Preferences saved: all cookies.' : 'Preferences saved: essential only.', 'info', 2200); }
+  $('#cookieAccept').addEventListener('click', () => setCookie('all'));
+  $('#cookieDecline').addEventListener('click', () => setCookie('essential'));
+  $('#cookieSettings').addEventListener('click', showCookie);
+  document.addEventListener('click', e => { if (e.target.closest('[data-open="privacy"]') && cookie.classList.contains('show')) { /* keep banner visible behind modal */ } });
+
+  /* ---------- floating bar visibility ---------- */
+  const ws = $('#workspace');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(en => $('#fab').classList.toggle('show', en.isIntersecting)), { threshold: 0.12 }).observe(ws);
+  }
+
+  /* ---------- init ---------- */
+  function init() {
+    $('#year').textContent = String(new Date().getFullYear());
+    applyTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    try {
+      const saved = JSON.parse(store.get('dmp_state', 'null'));
+      if (saved && typeof saved === 'object') {
+        Object.keys(DEFAULTS).forEach(k => { if (typeof saved[k] === typeof DEFAULTS[k]) state[k] = saved[k]; });
+        state.pad = Math.min(120, Math.max(16, state.pad)); state.shadow = Math.min(100, Math.max(0, state.shadow));
+        state.code = state.code.slice(0, 6000);
+        if (!['terminal', 'browser', 'macbook', 'iphone', 'vscode', 'windows', 'chrome', 'android', 'generic'].includes(state.device)) state.device = 'terminal';
+        if (!['javascript','python','json','sql','cpp','java','html','css','bash','plain'].includes(state.lang)) state.lang = 'javascript';
+        if (!['landscape','square','portrait','story','wide','custom'].includes(state.aspect)) state.aspect='landscape';
+        state.customW=Math.min(3840,Math.max(320,Number(state.customW)||1200)); state.customH=Math.min(3840,Math.max(320,Number(state.customH)||675));
+        if (!['jetbrains','fira','ibm','mono'].includes(state.fontFamily)) state.fontFamily='jetbrains';
+        if (!['left','center','right'].includes(state.textAlign)) state.textAlign='left';
+        if (!/^#[0-9a-f]{6}$/i.test(state.customColor)) state.customColor='#CCFF00';
+        state.fontSize=Math.min(24,Math.max(10,state.fontSize||14));
+        if (!BACKGROUNDS.some(b => b.id === state.bg)) state.bg = 'sunburst';
+        if (!['dark', 'light'].includes(state.ftheme)) state.ftheme = 'dark';
+        if (!['1080', '4k'].includes(state.res)) state.res = '1080';
+      }
+    } catch (e) {}
+    applyPro();
+    flashLoading(350);
+    if (!store.get('dmp_cookie')) setTimeout(showCookie, 900);
+    window.addEventListener('resize', debounce(fit, 80));
+    if ('ResizeObserver' in window) { new ResizeObserver(() => fit()).observe(canvas); new ResizeObserver(() => fit()).observe(stage.parentElement); }
+    window.addEventListener('beforeprint', () => { scaler.style.transform = 'none'; });
+    window.addEventListener('afterprint', fit);
+    icons(); onScroll();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+<!-- ============ CURSOR BUDDIES ============ -->
+
+
+<script>
+(function () {
+  'use strict';
+  const layer = document.getElementById('pacLayer');
+  const toggle = document.getElementById('pacToggle');
+  if (!layer) return;
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const get = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  const set = (k,v) => { try { localStorage.setItem(k,v); } catch (e) {} };
+  let enabled = get('dmp_pac') !== 'off' && !reduce;
+  const rot = document.getElementById('pacRot');
+  const eyes = document.querySelectorAll('.pac-eye');
+  function sync() {
+    if (!toggle) return;
+    toggle.textContent = 'Pac-Man: ' + (enabled ? 'On' : 'Off');
+    toggle.setAttribute('aria-pressed',String(enabled));
+  }
+  function apply() { layer.classList.toggle('off',!enabled || !fine); layer.classList.toggle('on',enabled && fine); sync(); }
+  if (fine && !reduce) document.addEventListener('mousemove',e => {
+    if (!enabled) return;
+    const r=layer.getBoundingClientRect(), dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2);
+    const angle=Math.atan2(dy,dx), dist=Math.max(1,Math.hypot(dx,dy));
+    const tilt=Math.max(-13,Math.min(13,angle*8));
+    rot.style.transform='rotate('+tilt+'deg) scaleY('+(dy < -10 ? 1.04 : 1)+')';
+    const x=Math.max(-2.5,Math.min(2.5,dx/dist*2.5)), y=Math.max(-2.5,Math.min(2.5,dy/dist*2.5));
+    eyes.forEach(eye=>eye.style.transform='translate('+x+'px,'+y+'px)');
+  },{passive:true});
+  if(toggle) toggle.addEventListener('click',()=>{enabled=!enabled;set('dmp_pac',enabled?'on':'off');apply();});
+  apply();
+})();
+</script>
+</body>
+</html>
